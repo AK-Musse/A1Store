@@ -21,7 +21,7 @@ class Order(models.Model):
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
-    cat = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Photo for cat_id: {self.cat_id} @{self.url}"
+        return f"Photo for cat_id: {self.product_id} @{self.url}"
