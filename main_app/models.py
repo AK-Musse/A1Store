@@ -40,5 +40,5 @@ class Photo(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-         ak_add_a_model
+         
         return f"Photo for cat_id: {self.cat_id} @{self.url}"
