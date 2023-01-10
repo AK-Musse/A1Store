@@ -16,5 +16,5 @@ urlpatterns = [
     # path('cats/create/', views.CatCreate.as_view(), name='cats_create'),
 
     # New url pattern below
-    path('accounts/signup/', views.signup, name='signup'),
+    #path('accounts/signup/', views.signup, name='signup'),
 ]
