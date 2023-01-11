@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> {{ username }}'s Cart</h1>
+
+{% for product in products %}
+<div >
+  <div class="card">
+    <a href="{% url 'main_app:detail' product.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ product.name }}</span>
+      <p>Price: {{ product.price | floatformat:2 }}</p>
+  </a>
+  </div>
+</div>
+{% endfor %}
+<div class="divider"></div>
+<p>Subtotal : {{ total | floatformat:2  }}</p>
+<p>Tax(13%) : {{ tax | floatformat:2 }}</p>
+<p>Total : {{ total | floatformat:2 }}</p>
+
+{% endblock %}

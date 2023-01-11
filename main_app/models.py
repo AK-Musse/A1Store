@@ -42,3 +42,20 @@ class Photo(models.Model):
     def __str__(self):
          
         return f"Photo for cat_id: {self.cat_id} @{self.url}"
+
+
+class Cart(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=600)
+    price = models.DecimalField(max_digits=19, decimal_places=10)
+    category =  models.CharField(
+            max_length=1,
+            # add the 'choices' field option
+            choices=CATEGORY,
+            # set the default value for meal to be 'B'
+            default=CATEGORY[0][0]
+        )
+
+    def __str__(self):
+        # Nice method for obtaining the friendly value of a Field.choice
+        return f'{self.get_category_display()}'
