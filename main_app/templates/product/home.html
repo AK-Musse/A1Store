@@ -5,7 +5,7 @@
 {% for product in products %}
 <div class="col s3">
   <div class="card">
-    <a href="dh[fdsfjks]">
+    <a href=" {% url 'main_app:detail' product.id %}">
     <div class="card-content">
       <span class="card-title">{{ product.name }}</span>
       <p>Price: {{ product.price| floatformat:2 }}</p>

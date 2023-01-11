@@ -19,7 +19,12 @@
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;A1Store </a></li>
                 </ul>
                 <ul class="right">
-                    <li><a href="{% url 'home' %}">Cart</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'main_app:logout' %}">Log Out</a></li>
+                    {% else %}
+                        <li><a href="{% url 'main_app:signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'main_app:login' %}">Log In</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
