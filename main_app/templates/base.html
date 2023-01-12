@@ -16,11 +16,24 @@
         <nav>
             <div class="nav-wrapper">
                 <ul>
-                    <li><a href="/" class="left brand-logo">&nbsp;&nbsp;A1Store </a></li>
+                    <li><a href="/" class="left brand-logo">&nbsp;&nbsp;A1-Store </a></li>
                 </ul>
                 <ul class="right">
+                    <li>Welcome {{user.username}}</li>
                     {% if user.is_authenticated %}
+                        <li><a href="{% url 'main_app:home' %}">Home</a></li>
+                        {% if user.is_superuser%}
+                        <li><a href="{% url 'main_app:product_create' %}">Add New Product</a></li>
+                        {% endif%}
                         <li><a href="{% url 'main_app:logout' %}">Log Out</a></li>
+                        <li><a href="{% url 'main_app:cart' %}">
+                            {% if total == None %}
+                            Cart 
+                            {% else %}
+                            Cart({{ total}})
+                            {% endif %}
+                            </a>
+                        </li>
                     {% else %}
                         <li><a href="{% url 'main_app:signup' %}">Sign Up</a></li>
                         <li><a href="{% url 'main_app:login' %}">Log In</a></li>

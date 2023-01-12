@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1> {{ username }}'s Cart</h1>
+<h1> {{ user.username }}'s Cart</h1>
 
 {% for product in products %}
 <div >
@@ -15,8 +15,8 @@
 </div>
 {% endfor %}
 <div class="divider"></div>
-<p>Subtotal : {{ total | floatformat:2  }}</p>
+<p>Subtotal : {{ subtotal | floatformat:2  }}</p>
 <p>Tax(13%) : {{ tax | floatformat:2 }}</p>
-<p>Total : {{ total | floatformat:2 }}</p>
+<p>Total : {{ prod_total | floatformat:2 }}</p>
 
 {% endblock %}
