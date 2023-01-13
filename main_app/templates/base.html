@@ -27,10 +27,10 @@
                         {% endif%}
                         <li><a href="{% url 'main_app:logout' %}">Log Out</a></li>
                         <li><a href="{% url 'main_app:cart' %}">
-                            {% if total == None %}
+                            {% if total_items_in_cart == None %}
                             Cart 
                             {% else %}
-                            Cart({{ total}})
+                            Cart({{ total_items_in_cart }})
                             {% endif %}
                             </a>
                         </li>

@@ -17,7 +17,8 @@
     <a href="{% url 'main_app:detail' product.id %}">
       <div class="card-content">
         <span class="card-title">{{ product.name }}</span>
-        <p>Price: {{ product.price | floatformat:2 }}</p>
+        <p>Price: {{ product.price | floatformat:2 }}</p> 
+        <p>Items in Cart: {{ product.price | floatformat:2 }}</p>
       </div>
     </a>
   </div>
@@ -29,9 +30,10 @@
 <p>Total : {{ prod_total | floatformat:2 }}</p>
 
 <div class="divider"></div>
+<a href="{% url 'main_app:cart_checkout' %}">Checkout</a>
 <div class="card">
   <div class="card-content">
-    <a href=" {% url 'main_app:cart_checkout' %}">Checkout</button>
+    
   </div>
 </div>
 {% endblock %}

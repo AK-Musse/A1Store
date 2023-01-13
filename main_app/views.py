@@ -25,84 +25,6 @@ def home(request):
     'total' : total
   })
 
-def product_details(request, prod_id):
-  logged_in_user = request.user
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
-  product = Product.objects.get(id=prod_id)
-  return render(request, 'product/detail.html', 
-  { 
-    'product' : product, 
-    'product_id' : prod_id,
-    'total' : total
-  })
-
-# class CartCreate(LoginRequiredMixin, generic.CreateView):
-#     model = Cart
-#     # fields = '__all__'
-#     success_url = '/products/'
-#     fields = ['name', 'description', 'price', 'Category']
-
-#     # This inherited method is called when a
-#     # valid cat form is being submitted
-#     def form_valid(self, form):
-#       # Assign the logged in user (self.request.user)
-#       form.instance.user = self.request.user  # form.instance is the cat
-#       # Let the CreateView do its job as usual
-#       return super().form_valid(form) 
-
-def add_to_cart(request, prod_id):
-  logged_in_user = request.user
-  product = Product.objects.get(id=prod_id)
-  cart = Cart.objects.create(user_id = logged_in_user.id , product_id = product.id)
-  cart.save()
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
-  print(f"User is : {logged_in_user.id}")
-  return render(request, 'product/detail.html', 
-  {
-    'product' : product,
-    'product_id' : prod_id,
-    'total' : total
-  })
-
-
-def cart(request):
-  logged_in_user = request.user
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
-  products = Product.objects.all()
-  print(products)
-  subtotal = 0
-  for product in products:
-      subtotal += float(product.price)
-  print("Subtotal : " + str(subtotal))
-  tax =  13 / 100 * subtotal
-  print(tax)
-  prod_total = subtotal + tax
-  return render(request, 'cart.html', 
-  {
-    'products': products,
-    'subtotal' : subtotal,
-    'tax' : tax,
-    'prod_total' : prod_total,
-    'total' : total
-  })
-
-
-def signup(request):
-  if request.method == 'POST':
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-      user = form.save()
-      login(request, user)
-      return redirect('main_app:home')  
-      # or
-      # return redirect('product/home.html')
-  else:
-    form = UserCreationForm()
-  return render(request, 'registration/signup.html', 
-  {
-    'form': form
-  })
-
 
 @login_required(login_url='/accounts/login/')     
 def product_create(request):
@@ -135,11 +57,121 @@ def product_create(request):
   else:
     return render(request,'product/create.html')
 
+
+def product_details(request, prod_id):
+  logged_in_user = request.user
+  total = Cart.objects.filter(user_id = logged_in_user.id).count()
+  product = Product.objects.get(id=prod_id)
+  return render(request, 'product/detail.html', 
+  { 
+    'product' : product, 
+    'product_id' : prod_id,
+    'total' : total
+  })
+
+# class CartCreate(LoginRequiredMixin, generic.CreateView):
+#     model = Cart
+#     # fields = '__all__'
+#     success_url = '/products/'
+#     fields = ['name', 'description', 'price', 'Category']
+
+#     # This inherited method is called when a
+#     # valid cat form is being submitted
+#     def form_valid(self, form):
+#       # Assign the logged in user (self.request.user)
+#       form.instance.user = self.request.user  # form.instance is the cat
+#       # Let the CreateView do its job as usual
+#       return super().form_valid(form) 
+
+@login_required(login_url='/accounts/login/')     
+def add_to_cart(request, prod_id):
+  logged_in_user = request.user
+  product = Product.objects.get(id=prod_id)
+  item_exist_in_cart = Cart.objects.filter( product_id = product.id, user_id = logged_in_user.id )
+  print(item_exist_in_cart)
+  if item_exist_in_cart:
+    # item_exist_in_cart.product_id ==  prod_id and item_exist_in_cart.user_id == logged_in_user.id:
+    existing_quantity = item_exist_in_cart[0].quantity   
+    new_quantity = existing_quantity + 1 
+    print('item exist ' + str(existing_quantity))
+    cart = Cart.objects.filter( product_id = product.id, user_id = logged_in_user.id).update(quantity = new_quantity)
+    print('quatity exist ' + str(cart))
+  else:
+    print('item does not exist')
+    cart = Cart.objects.create(product_id = product.id, user_id = logged_in_user.id)
+    cart.save()
+  
+  total_items_in_cart = Cart.objects.filter(user_id = logged_in_user.id).count()
+  print(f"User is : {logged_in_user.id}")
+  return render(request, 'product/detail.html', 
+  {
+    'product' : product,
+    'product_id' : prod_id,
+    'total_items_in_cart' : total_items_in_cart
+  })
+
+
+def calculate_total_items_in_cart(request):
+  logged_in_user = request.user
+  products_in_cart = Cart.objects.filter(user_id = logged_in_user.id)
+  print(products_in_cart)
+  total_quantity = 0
+  for product in products_in_cart:
+      total_quantity += product.quantity
+  return total_quantity
+
+
+def find_logged_user_details(request):
+  return {
+    'id' : request.user.id,
+    'username' : request.user.username,
+    'is_superuser' : request.user.is_superuser,
+    'date_joined' : request.user.date_joined
+  }
+
+
+def cart(request):
+  logged_in_user_id = find_logged_user_details(request).get('id')
+  product_ids_in_cart = Cart.objects.filter(user_id = logged_in_user_id).values_list('product_id')
+  products_in_cart = Product.objects.filter(id__in = product_ids_in_cart)  
+  subtotal = 0
+  for product in products_in_cart:
+      subtotal += float(product.price)
+  tax =  13 / 100 * subtotal
+  prod_total = subtotal + tax
+  return render(request, 'cart.html', 
+  {
+    'products': products_in_cart,
+    'subtotal' : subtotal,
+    'tax' : tax,
+    'prod_total' : prod_total,
+    'total_items_in_cart' : calculate_total_items_in_cart(request)
+  })
+
+
   
 def cart_checkout(request):
   logged_in_user = request.user
-  checked_out_products = Cart.objects.filter(user_id = logged_in_user.username).delete()
-  checked_out_products.save()
+  checked_out_products = Cart.objects.filter(user_id = logged_in_user.id)
+  print("checkout")
+  checked_out_products.delete()
   total = Cart.objects.filter(user_id = logged_in_user.id).count()
   print(f'Deleted products are : \n {checked_out_products}')
-  return redirect('product/home.html')
+  return redirect('main_app:home')
+
+
+def signup(request):
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('main_app:home')  
+      # or
+      # return redirect('product/home.html')
+  else:
+    form = UserCreationForm()
+  return render(request, 'registration/signup.html', 
+  {
+    'form': form
+  })
