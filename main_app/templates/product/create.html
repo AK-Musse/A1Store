@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content%}
+ <div>
+    <h2>Please add new product</h2>
+
+  <div class="card">
+    <form action="{% url 'main_app:product_create' %}" enctype="multipart/form-data" method="post" class="card-panel">
+      {% csrf_token %}
+        <label for="product_name">Product name: </label>
+        <input id="product_name" type="text" name="product_name">
+
+        <label for="product_description">Product description: </label>
+        <input id="product_description" type="text" name="product_description">
+
+        <label for="product_price">Product price: </label>
+        <input id="product_price" type="text" name="product_price">
+
+        <label for="product_category">Product category: </label>
+        <select name="product_category" id="product_category" class="form-control">
+            <option value="None">--Select Category--</option>  
+            <option value="F">Furniture</option>
+            <option value="T">Toy</option>
+            <option value="C">Cloth</option>
+            <option value="M">Mobile Phone</option>
+            <option value="L">Laptop</option>
+        </select>
+        <br><br>
+        <input type="file" name="photo-file">
+        <br><br>
+        <input type="submit" class="btn" value="Add Product">
+    </form>
+  </div>
+ </div>
+<script>
+  // add additional JS to initialize select below
+  var selectEl = document.getElementById('product_category');
+  M.FormSelect.init(selectEl);
+
+</script>
+{% endblock %}

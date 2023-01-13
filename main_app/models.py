@@ -15,7 +15,7 @@ CATEGORY = (
 class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=600)
-    price = models.DecimalField(max_digits=19, decimal_places=10)
+    price = models.DecimalField(max_digits=19, decimal_places=4)
     category =  models.CharField(
             max_length=1,
             # add the 'choices' field option
@@ -23,17 +23,14 @@ class Product(models.Model):
             # set the default value for meal to be 'B'
             default=CATEGORY[0][0]
         )
+    
+    class Meta:
+        ordering = ['-price']
 
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice
-        return f'{self.get_category_display()}'
+        return f' product name : {self.name}, Category :{self.get_category_display()}, Price : {self.price}'
 
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.Case)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
@@ -41,4 +38,21 @@ class Photo(models.Model):
 
     def __str__(self):
          
-        return f"Photo for cat_id: {self.cat_id} @{self.url}"
+        return f"Photo for cat_id: {self.product_id} @{self.url}"
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity =  models.IntegerField(default=1)
+
+    def __str__(self):
+        # Nice method for obtaining the friendly value of a Field.choice
+        return f'{self.id}'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cart = models.ManyToManyField(Cart)
+
+    def __str__(self):
+        return str(self.product_id)
