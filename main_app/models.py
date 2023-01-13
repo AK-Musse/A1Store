@@ -15,7 +15,7 @@ CATEGORY = (
 class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=600)
-    price = models.DecimalField(max_digits=19, decimal_places=10)
+    price = models.DecimalField(max_digits=19, decimal_places=4)
     category =  models.CharField(
             max_length=1,
             # add the 'choices' field option
@@ -34,9 +34,10 @@ class Product(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity =  models.IntegerField(default=1)
 
     def __str__(self):
-        return self.name
+        return str(self.product_id)
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
