@@ -6,11 +6,20 @@
 {% for product in products %}
 <div >
   <div class="card">
-    <a href="{% url 'main_app:detail' product.id %}">
     <div class="card-content">
-      <span class="card-title">{{ product.name }}</span>
-      <p>Price: {{ product.price | floatformat:2 }}</p>
-  </a>
+      <!-- Insert photo markup below this comment -->
+        {% for photo in product.photo_set.all %}
+          <img class="responsive-img card-panel" src="{{photo.url}}">
+        {% empty %}
+          <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'main_app:detail' product.id %}">
+      <div class="card-content">
+        <span class="card-title">{{ product.name }}</span>
+        <p>Price: {{ product.price | floatformat:2 }}</p>
+      </div>
+    </a>
   </div>
 </div>
 {% endfor %}
@@ -19,4 +28,10 @@
 <p>Tax(13%) : {{ tax | floatformat:2 }}</p>
 <p>Total : {{ prod_total | floatformat:2 }}</p>
 
+<div class="divider"></div>
+<div class="card">
+  <div class="card-content">
+    <a href=" {% url 'main_app:cart_checkout' %}">Checkout</button>
+  </div>
+</div>
 {% endblock %}

@@ -136,3 +136,10 @@ def product_create(request):
     return render(request,'product/create.html')
 
   
+def cart_checkout(request):
+  logged_in_user = request.user
+  checked_out_products = Cart.objects.filter(user_id = logged_in_user.username).delete()
+  checked_out_products.save()
+  total = Cart.objects.filter(user_id = logged_in_user.id).count()
+  print(f'Deleted products are : \n {checked_out_products}')
+  return redirect('product/home.html')
