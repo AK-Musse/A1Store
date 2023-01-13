@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Photo, Cart
+from .models import Product, Photo, Order, Cart
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 import boto3
@@ -14,6 +14,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
 BUCKET = 'sb-a1store'
+
+
+def find_logged_user_details(request):
+  return {
+    'id' : request.user.id,
+    'username' : request.user.username,
+    'is_superuser' : request.user.is_superuser,
+    'date_joined' : request.user.date_joined
+  }
+
 
 def home(request):
   logged_in_user = request.user
@@ -59,8 +69,8 @@ def product_create(request):
 
 
 def product_details(request, prod_id):
-  logged_in_user = request.user
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
+  logged_in_user_id = find_logged_user_details(request).get('id')
+  total = Cart.objects.filter(user_id = logged_in_user_id).count()
   product = Product.objects.get(id=prod_id)
   return render(request, 'product/detail.html', 
   { 
@@ -85,29 +95,22 @@ def product_details(request, prod_id):
 
 @login_required(login_url='/accounts/login/')     
 def add_to_cart(request, prod_id):
-  logged_in_user = request.user
+  logged_in_user_id = find_logged_user_details(request).get('id')
   product = Product.objects.get(id=prod_id)
-  item_exist_in_cart = Cart.objects.filter( product_id = product.id, user_id = logged_in_user.id )
-  print(item_exist_in_cart)
+  item_exist_in_cart = Cart.objects.filter( product_id = product.id, user_id = logged_in_user_id )
   if item_exist_in_cart:
-    # item_exist_in_cart.product_id ==  prod_id and item_exist_in_cart.user_id == logged_in_user.id:
     existing_quantity = item_exist_in_cart[0].quantity   
     new_quantity = existing_quantity + 1 
-    print('item exist ' + str(existing_quantity))
-    cart = Cart.objects.filter( product_id = product.id, user_id = logged_in_user.id).update(quantity = new_quantity)
-    print('quatity exist ' + str(cart))
+    Cart.objects.filter( product_id = product.id, user_id = logged_in_user_id).update(quantity = new_quantity)
   else:
-    print('item does not exist')
-    cart = Cart.objects.create(product_id = product.id, user_id = logged_in_user.id)
+    cart = Cart.objects.create(product_id = product.id, user_id = logged_in_user_id)
     cart.save()
   
-  total_items_in_cart = Cart.objects.filter(user_id = logged_in_user.id).count()
-  print(f"User is : {logged_in_user.id}")
   return render(request, 'product/detail.html', 
   {
     'product' : product,
     'product_id' : prod_id,
-    'total_items_in_cart' : total_items_in_cart
+    'total_items_in_cart' : calculate_total_items_in_cart(request)
   })
 
 
@@ -119,15 +122,6 @@ def calculate_total_items_in_cart(request):
   for product in products_in_cart:
       total_quantity += product.quantity
   return total_quantity
-
-
-def find_logged_user_details(request):
-  return {
-    'id' : request.user.id,
-    'username' : request.user.username,
-    'is_superuser' : request.user.is_superuser,
-    'date_joined' : request.user.date_joined
-  }
 
 
 def cart(request):
@@ -151,11 +145,11 @@ def cart(request):
 
   
 def cart_checkout(request):
-  logged_in_user = request.user
-  checked_out_products = Cart.objects.filter(user_id = logged_in_user.id)
+  logged_in_user_id = find_logged_user_details(request).get('id')
+  checked_out_products = Cart.objects.filter(user_id = logged_in_user_id)
   print("checkout")
   checked_out_products.delete()
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
+  # total = Cart.objects.filter(user_id = logged_in_user_id).count()
   print(f'Deleted products are : \n {checked_out_products}')
   return redirect('main_app:home')
 
@@ -166,6 +160,8 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
+      logged_in_user_id = find_logged_user_details(request).get('id')
+      # created_new_cart_of_user = Cart.objects.create(user_id = logged_in_user_id)
       return redirect('main_app:home')  
       # or
       # return redirect('product/home.html')
