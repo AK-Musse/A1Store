@@ -7,8 +7,9 @@ from django.views import generic
 import uuid
 import traceback
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -96,6 +97,16 @@ def add_to_cart(request, prod_id):
     'product_id' : prod_id,
     'total_items_in_cart' : calculate_total_items_in_cart(request)
   })
+
+
+class ProductUpdate(LoginRequiredMixin, UpdateView):
+  model = Product
+  fields = ['name', 'description', 'price', 'category']
+
+
+class ProductDelete(LoginRequiredMixin, DeleteView):
+  model = Product
+  success_url = '/products/'
 
 
 def calculate_total_items_in_cart(request):
