@@ -51,8 +51,10 @@ Sign up Page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-1
 Login page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.48.57%20AM.png)
 
 
-Cart page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.09%20AM.png)
-            ![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.26%20AM.png)
+Cart page :
+![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.09%20AM.png)
+
+![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.26%20AM.png)
 
 Add product page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.49%20AM.png)
 
