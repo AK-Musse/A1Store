@@ -42,21 +42,21 @@ Once a user has logged in , they can add the products to the cart, and after tha
 ## App Images
 
 
-Home Page :![My Image](https://imgur.com/enVWbll)
+Home Page :![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.48.32%20AM.png)
 
 Product details Page :![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.52.24%20AM.png)
 
-Sign up Page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.51.14%20AM.png)
+Sign up Page :![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.51.14%20AM.png)
 
-Login page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.48.57%20AM.png)
+Login page :![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.48.57%20AM.png)
 
 
 Cart page :
-![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.09%20AM.png)
+![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.09%20AM.png)
 
-![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.26%20AM.png)
+![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.26%20AM.png)
 
-Add product page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.49%20AM.png)
+Add product page :![My Image](/main_app/static/images/Screenshot%202023-01-14%20at%2012.54.49%20AM.png)
 
 
 ## Icebox Features 🧊
