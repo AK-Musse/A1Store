@@ -42,7 +42,7 @@ Once a user has logged in , they can add the products to the cart, and after tha
 ## App Images
 
 
-Home Page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.48.32%20AM.png)
+Home Page :![My Image](https://imgur.com/enVWbll)
 
 Product details Page :![My Image](/A1Store/main_app/static/images/Screenshot%202023-01-14%20at%2012.52.24%20AM.png)
 
