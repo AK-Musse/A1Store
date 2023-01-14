@@ -27,12 +27,11 @@ def find_logged_user_details(request):
 
 def home(request):
   logged_in_user = request.user
-  total = Cart.objects.filter(user_id = logged_in_user.id).count()
   products = Product.objects.all()
   return render(request, 'product/home.html',
   { 
     'products' : products, 
-    'total' : total
+    'total_items_in_cart' : calculate_total_items_in_cart(request)
   })
 
 
@@ -76,7 +75,7 @@ def product_details(request, prod_id):
   { 
     'product' : product, 
     'product_id' : prod_id,
-    'total' : total
+    'total_items_in_cart' : calculate_total_items_in_cart(request)
   })
 
 @login_required(login_url='/accounts/login/')     

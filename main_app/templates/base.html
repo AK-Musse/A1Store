@@ -14,19 +14,19 @@
 <body>
     <header class="navbar-fixed">
         <nav class="nav yellow darken-2">
+            <div class="nav right login-user" >Welcome {{user.username}}</div>
             <div class="nav-wrapper">
                 <ul>
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;A1-Store </a></li>
                 </ul>
                 <ul class="right">
-                    <li>Welcome {{user.username}}</li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'main_app:home' %}">Home</a></li>
+                        <li class="right-border-line"><a href="{% url 'main_app:home' %}">Home</a></li>
                         {% if user.is_superuser%}
-                        <li><a href="{% url 'main_app:product_create' %}">Add New Product</a></li>
+                        <li class="right-border-line"><a href="{% url 'main_app:product_create' %}">Add New Product</a></li>
                         {% endif%}
-                        <li><a href="{% url 'main_app:logout' %}">Log Out</a></li>
-                        <li><a href="{% url 'main_app:cart' %}">
+                        <li class="right-border-line"><a href="{% url 'main_app:logout' %}">Log Out</a></li>
+                        <li class="right-border-line"><a href="{% url 'main_app:cart' %}">
                             {% if total_items_in_cart == None %}
                             Cart 
                             {% else %}
