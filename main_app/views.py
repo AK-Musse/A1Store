@@ -126,21 +126,43 @@ def calculate_total_items_in_cart(request):
 
 def cart(request):
   logged_in_user_id = find_logged_user_details(request).get('id')
-  product_ids_in_cart = Cart.objects.filter(user_id = logged_in_user_id).values_list('product_id')
-  products_in_cart = Product.objects.filter(id__in = product_ids_in_cart)  
+  tuples_of_all_items_in_cart = Cart.objects.filter(user_id = logged_in_user_id).values_list('product_id', 'quantity')
+  items_in_cart, quantity = zip(*tuples_of_all_items_in_cart)
+  products_in_cart = Product.objects.filter(id__in = items_in_cart) 
+  modified_products_list = []
+
+  index_of_modified_products_list = 0
   subtotal = 0
-  for product in products_in_cart:
-      subtotal += float(product.price)
+  def convert_model_to_list(product):
+    return {
+      'id': product.pk,
+      'name': product.name,
+      'description': product.description,
+      'price': product.price,
+      'category': product.category,
+      'quantity': None
+    }
+
+  for product in list(products_in_cart):
+    for pair_of_prod_id_and_quantity in tuples_of_all_items_in_cart:
+      print(tuples_of_all_items_in_cart)
+      if product.pk == pair_of_prod_id_and_quantity[0]:
+        modified_products_list.append(convert_model_to_list(product))
+        modified_products_list[index_of_modified_products_list]['quantity'] = pair_of_prod_id_and_quantity[1]
+        subtotal += float(modified_products_list[index_of_modified_products_list]['price'] * modified_products_list[index_of_modified_products_list]['quantity'])
+        index_of_modified_products_list += 1 
+   
   tax =  13 / 100 * subtotal
   prod_total = subtotal + tax
   return render(request, 'cart.html', 
   {
-    'products': products_in_cart,
+    'products': modified_products_list,
     'subtotal' : subtotal,
     'tax' : tax,
     'prod_total' : prod_total,
     'total_items_in_cart' : calculate_total_items_in_cart(request)
   })
+
 
 
   
