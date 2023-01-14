@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -30,6 +31,9 @@ class Product(models.Model):
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice
         return f' product name : {self.name}, Category :{self.get_category_display()}, Price : {self.price}'
+    
+    def get_absolute_url(self):
+        return reverse('main_app:detail', kwargs={'prod_id': self.id})
 
 
 class Photo(models.Model):

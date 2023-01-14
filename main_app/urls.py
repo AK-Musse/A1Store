@@ -4,14 +4,16 @@ from . import views
 app_name = "main_app"
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('products/', views.home, name='home'),
     path('products/<int:prod_id>', views.product_details, name='detail'),
     path('products/<int:prod_id>/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart, name='cart'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/signup/', views.signup, name='signup'),
     path('product/create/', views.product_create, name='product_create'),
-    path('checkout/', views.cart_checkout, name='cart_checkout')
+    path('checkout/', views.cart_checkout, name='cart_checkout'),
+    path('products/<int:pk>/update/', views.ProductUpdate.as_view(), name='product_update'),
+    path('products/<int:pk>/delete/', views.ProductDelete.as_view(), name='product_delete'),
 
 
 
