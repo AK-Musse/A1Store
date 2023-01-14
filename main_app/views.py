@@ -21,7 +21,6 @@ def find_logged_user_details(request):
     'id' : request.user.id,
     'username' : request.user.username,
     'is_superuser' : request.user.is_superuser,
-    'date_joined' : request.user.date_joined
   }
 
 
@@ -108,7 +107,7 @@ def calculate_total_items_in_cart(request):
       total_quantity += product.quantity
   return total_quantity
 
-
+@login_required(login_url='/accounts/login/')     
 def cart(request):
   logged_in_user_id = find_logged_user_details(request).get('id')
   tuples_of_all_items_in_cart = Cart.objects.filter(user_id = logged_in_user_id).values_list('product_id', 'quantity')
@@ -142,6 +141,7 @@ def cart(request):
   return render(request, 'cart.html', 
   {
     'products': modified_products_list,
+    'product_photo_reference': products_in_cart,
     'subtotal' : subtotal,
     'tax' : tax,
     'prod_total' : prod_total,
@@ -150,7 +150,7 @@ def cart(request):
 
 
 
-  
+@login_required(login_url='/accounts/login/')     
 def cart_checkout(request):
   logged_in_user_id = find_logged_user_details(request).get('id')
   checked_out_products = Cart.objects.filter(user_id = logged_in_user_id)

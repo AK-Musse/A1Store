@@ -4,25 +4,28 @@
 <h1> {{ user.username }}'s Cart</h1>
 
 {% for product in products %}
-<div >
-  <div class="card">
-    <div class="card-content">
-      <!-- Insert photo markup below this comment -->
-        {% for photo in product.photo_set.all %}
-          <img class="responsive-img card-panel" src="{{photo.url}}">
-        {% empty %}
-          <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-        {% endfor %}
+  <div >
+    <div class="card">
+      {% for product_reference in product_photo_reference %}
+        {% if product.id == product_reference.id  %}
+          <div class="card-content">
+              {% for photo in product_reference.photo_set.all %}
+                <img class="responsive-img card-panel" src="{{photo.url}}">
+              {% empty %}
+                <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+              {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+      <a href="{% url 'main_app:detail' product.id %}">
+        <div class="card-content">
+          <span class="card-title">{{ product.name }}</span>
+          <p>Price: {{ product.price | floatformat:2 }}</p> 
+          <p>Items in Cart: {{ product.quantity}}</p>
+        </div>
+      </a>
     </div>
-    <a href="{% url 'main_app:detail' product.id %}">
-      <div class="card-content">
-        <span class="card-title">{{ product.name }}</span>
-        <p>Price: {{ product.price | floatformat:2 }}</p> 
-        <p>Items in Cart: {{ product.quantity}}</p>
-      </div>
-    </a>
   </div>
-</div>
 {% endfor %}
 <div class="divider"></div>
 <p>Subtotal : {{ subtotal | floatformat:2  }}</p>
@@ -30,10 +33,9 @@
 <p>Total : {{ prod_total | floatformat:2 }}</p>
 
 <div class="divider"></div>
-<a href="{% url 'main_app:cart_checkout' %}">Checkout</a>
 <div class="card">
   <div class="card-content">
-    
+    <a id="checkout-btn" href="{% url 'main_app:cart_checkout' %}">Checkout</a>
   </div>
 </div>
 {% endblock %}

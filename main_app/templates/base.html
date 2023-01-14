@@ -14,7 +14,9 @@
 <body>
     <header class="navbar-fixed">
         <nav class="nav yellow darken-2">
+            {% if user.is_authenticated %}
             <div class="nav right login-user" >Welcome {{user.username}}</div>
+            {% endif %}
             <div class="nav-wrapper">
                 <ul>
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;A1-Store </a></li>
@@ -35,14 +37,14 @@
                             </a>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'main_app:signup' %}">Sign Up</a></li>
+                        <li class="right-border-line"><a href="{% url 'main_app:signup' %}">Sign Up</a></li>
                         <li><a href="{% url 'main_app:login' %}">Log In</a></li>
                     {% endif %}
                 </ul>
             </div>
         </nav>
     </header>
-    <main class="container">
+    <main class="container main-area">
         <div class="row">
             <div class="col s2">
               <!-- Grey navigation panel -->
@@ -55,7 +57,7 @@
         </div>
     </main>
   	<footer class="page-footer yellow darken-2">
-       <div class="right footer">All Rights Reserved , &copy; A1Store 2023 &nbsp;</div>
+        <div class="right footer">All Rights Reserved , &copy; A1Store 2023 &nbsp;</div>
     </footer>
 </body>
 </html>

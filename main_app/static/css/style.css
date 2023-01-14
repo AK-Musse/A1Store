@@ -17,13 +17,25 @@ background-color: rgb(215, 215, 215)
 }
 
 .nav-wrapper{
+    margin-top: 8px;
+    margin-bottom: 8px;   
+}
+
+.main-area{
     margin-top: 10px;
-    margin-bottom: 10px;   
+}
+
+#checkout-btn{
+    margin-left: 45%;
+    padding: 20px;
+    background-color: rgb(14, 17, 17);
+    color: white;
+    border-radius: 10%;
 }
 
 @media only screen and (min-width: 601px){
     .nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
-        height: 90px;
+        height: 80px;
         line-height: 64px;
 }
 }
