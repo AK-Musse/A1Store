@@ -79,20 +79,6 @@ def product_details(request, prod_id):
     'total' : total
   })
 
-# class CartCreate(LoginRequiredMixin, generic.CreateView):
-#     model = Cart
-#     # fields = '__all__'
-#     success_url = '/products/'
-#     fields = ['name', 'description', 'price', 'Category']
-
-#     # This inherited method is called when a
-#     # valid cat form is being submitted
-#     def form_valid(self, form):
-#       # Assign the logged in user (self.request.user)
-#       form.instance.user = self.request.user  # form.instance is the cat
-#       # Let the CreateView do its job as usual
-#       return super().form_valid(form) 
-
 @login_required(login_url='/accounts/login/')     
 def add_to_cart(request, prod_id):
   logged_in_user_id = find_logged_user_details(request).get('id')
