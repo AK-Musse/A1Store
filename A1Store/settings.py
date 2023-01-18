@@ -79,10 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'a1store',
-        'USER': 'sei',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        # 'USER': 'sei',
+        # 'PASSWORD': '',
+        # 'HOST': 'local',
+        # 'PORT': '5432',
     }
 }
 
