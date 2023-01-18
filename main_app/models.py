@@ -59,4 +59,6 @@ class Order(models.Model):
     cart = models.ManyToManyField(Cart)
 
     def __str__(self):
-        return str(self.product_id)
+        return str(self.product_id);
+
+

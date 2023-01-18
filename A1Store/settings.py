@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!nxov5&oa3_ul102z7fpdyhyc(_)5pz(=g7bx!7w1-nhd9kk0z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -79,10 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'a1store',
-        # 'USER': 'sei',
-        # 'PASSWORD': '',
-        # 'HOST': 'local',
-        # 'PORT': '5432',
     }
 }
 
@@ -122,12 +118,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
 
 
 # Default primary key field type
