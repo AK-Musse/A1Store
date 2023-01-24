@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!nxov5&oa3_ul102z7fpdyhyc(_)5pz(=g7bx!7w1-nhd9kk0z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost','a1store-production.up.railway.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -79,10 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'a1store',
-        'USER': 'sei',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
 
@@ -121,13 +117,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
+STATIC_URL = 'static/'
 
 
 # Default primary key field type
@@ -139,3 +129,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/products/'
 
 LOGOUT_REDIRECT_URL = '/products/'
+
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
